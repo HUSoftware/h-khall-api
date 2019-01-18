@@ -27,13 +27,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class StudentServicesApplication extends SpringBootServletInitializer
-    implements WebApplicationInitializer
+public class Application extends SpringBootServletInitializer implements WebApplicationInitializer
 {
   public static void main(String[] inArgs)
   {
-    SpringApplication.run(StudentServicesApplication.class, inArgs);
-
+    SpringApplication.run(Application.class, inArgs);
   }
 
   @Autowired
@@ -42,7 +40,7 @@ public class StudentServicesApplication extends SpringBootServletInitializer
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder inApplication)
   {
-    return inApplication.sources(StudentServicesApplication.class);
+    return inApplication.sources(Application.class);
   }
 
   @Bean
@@ -60,7 +58,7 @@ public class StudentServicesApplication extends SpringBootServletInitializer
 
   private ApiInfo apiInfo()
   {
-    return new ApiInfoBuilder().title("H API")
-        .contact(new Contact("Simeon Hearring", "", "simeonlhearring@gmail.org")).build();
+    return new ApiInfoBuilder().title("KHALL API")
+        .contact(new Contact("Simeon Hearring", "", "simeonlhearring@gmail.com")).build();
   }
 }
