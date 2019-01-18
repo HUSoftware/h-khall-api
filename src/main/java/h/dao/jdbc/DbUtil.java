@@ -6,11 +6,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.object.MappingSqlQuery;
+
 import h.model.Db;
 
 public final class DbUtil
 {
-  public static Db.Row mapRow(ResultSet inRs, int inRowNum) throws SQLException
+  private static Db.Row mapRow(ResultSet inRs, int inRowNum) throws SQLException
   {
     return row(inRs, columns(inRs.getMetaData()));
   }
@@ -56,6 +60,21 @@ public final class DbUtil
     {
       ret.add(inMetaData.getColumnName(i));
     }
+    return ret;
+  }
+
+  public static MappingSqlQuery<Db.Row> newQuery(DataSource inDataSource, String inSql, int... inTypes)
+  {
+    MappingSqlQuery<Db.Row> ret = new MappingSqlQuery<Db.Row>(inDataSource, inSql)
+    {
+      @Override
+      protected Db.Row mapRow(ResultSet inRs, int inRowNum) throws SQLException
+      {
+        return DbUtil.mapRow(inRs, inRowNum);
+      }
+    };
+    ret.setTypes(inTypes);
+    ret.compile();
     return ret;
   }
 

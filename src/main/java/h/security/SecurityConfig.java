@@ -16,7 +16,7 @@ import h.service.UserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
   @Autowired
-  UserService mUserDetailService;
+  UserService mUserService;
 
   @Override
   protected void configure(AuthenticationManagerBuilder inAuth) throws Exception
@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
   public DaoAuthenticationProvider authenticationProvider()
   {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    authProvider.setUserDetailsService(mUserDetailService);
+    authProvider.setUserDetailsService(mUserService);
     authProvider.setPasswordEncoder(encoder());
     return authProvider;
   }

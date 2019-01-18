@@ -13,9 +13,9 @@ public class Db
     {
     }
 
-    public Rows(Collection<Db.Row> inData)
+    public Rows(Collection<Db.Row> inRows)
     {
-      for (Row value : inData)
+      for (Row value : inRows)
       {
         add(value);
       }

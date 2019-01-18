@@ -11,8 +11,6 @@ public class LoginController
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String showLoginPage(ModelMap inModel)
   {
-    // inModel.put("name", "in28Minutes");
     return "welcome";
   }
-
 }

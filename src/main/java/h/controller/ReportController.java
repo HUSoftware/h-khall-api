@@ -1,35 +1,32 @@
 package h.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import h.dao.Dao;
+import h.dao.ReportDao;
+import h.model.Db;
+import io.swagger.annotations.Api;
 
-//@RestController
-//@Api(produces = "application/json", tags = "Reports", description = "API")
-//@RequestMapping("/reports")
+@RestController
+@Api(produces = "application/json", tags = "Report", description = "API")
+@RequestMapping("/report")
 public class ReportController
 {
   @Autowired
-  Dao mDao;
+  private ReportDao mDao;
 
-  // @GetMapping
-  // public List<Report> getAllLookups()
-  // {
-  // return mService.lookups();
-  // }
+  @GetMapping("/userid/{userid}/months/{months}")
+  public Db.Rows selectByUserAndMonthsAgo(@PathVariable("userid") long inUserId, @PathVariable("months") int inMonths)
+  {
+    return mDao.selectByUserAndMonthsAgo(inUserId, inMonths);
+  }
 
-  // @GetMapping("/{id}")
-  // public Report getLookupById(@PathVariable("congid") int inCongId,
-  // @PathVariable("pubid") long inPubId, @PathVariable("year") int inYear,
-  // @PathVariable("month") int inMonth)
-  // {
-  // return mDao.selectReport(inCongId, inPubId, inYear, inMonth);
-  // }
-  //
-  // @GetMapping("/type/{id}")
-  // public List<Report> getByPersonId(@PathVariable("id") int inCongId, Date
-  // inStart, Date inEnd)
-  // {
-  // return mDao.reports(inCongId, inStart, inEnd);
-  // }
+  @GetMapping("/congid/{congid}/months/{months}")
+  public Db.Rows selectByCongAndMonthsAgo(@PathVariable("congid") long inCongId, @PathVariable("months") int inMonths)
+  {
+    return mDao.selectByCongAndMonthsAgo(inCongId, inMonths);
+  }
 }
