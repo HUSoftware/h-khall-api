@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Statements>
+	<Statement>
+		<Key>UPSERT</Key>
+		<Types>VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR</Types>
+		<Sql>INSERT INTO
+			CONGREGATION(mNumber,mName,mProfile)
+			VALUES (?,?,?) ON DUPLICATE KEY UPDATE
+			mName=?,mProfile=?
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_ID</Key>
+		<Types>NUMERIC</Types>
+		<Sql>select * from CONGREGATION where mId=?</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_NUM</Key>
+		<Types>VARCHAR</Types>
+		<Sql>select * from CONGREGATION where mNumber=?</Sql>
+	</Statement>
+</Statements> 

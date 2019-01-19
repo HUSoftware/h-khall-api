@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Statements>
+	<Statement>
+		<Key>SELECT_PE_ID</Key>
+		<Types>NUMERIC</Types>
+		<Sql>select mId, AES_DECRYPT(mProfile,@key) AS mProfile from PERSON where mId=?
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_PE_LOC</Key>
+		<Types>VARCHAR</Types>
+		<Sql>select mId, AES_DECRYPT(mProfile,@key) AS mProfile from PERSON where mLocater like ?
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_LOC</Key>
+		<Types>NUMERIC</Types>
+		<Sql>select mLocater from PERSON where mId=?
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>UPDATE_PE</Key>
+		<Types>VARCHAR,VARCHAR,NUMERIC</Types>
+		<Sql>update PERSON set mProfile=AES_ENCRYPT(?,@key),mLocater=? where mId=?</Sql>
+	</Statement>
+	<Statement>
+		<Key>INSERT_PE</Key>
+		<Types>VARCHAR,VARCHAR</Types>
+		<Sql>insert into PERSON (mLocater,mProfile) values (?,AES_ENCRYPT(?,@key))</Sql>
+	</Statement>
+	<Statement>
+		<Key>INSERT_PE1</Key>
+		<Types>NUMERIC,VARCHAR,VARCHAR</Types>
+		<Sql>insert into PERSON (mId,mLocater,mProfile) values (?,?,AES_ENCRYPT(?,@key))</Sql>
+	</Statement>
+</Statements> 

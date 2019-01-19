@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Statements>
+	<Statement>
+		<Key>UPSERT_YM</Key>
+		<Types>VARCHAR,NUMERIC,NUMERIC,NUMERIC</Types>
+		<Sql>INSERT INTO SCHEDULE (mCurriculum, mSchool, mCongregation, mUpdated)
+			SELECT mId, ? AS SCHOOL, ? AS CONG, CURRENT_TIMESTAMP AS NOW
+			FROM CURRICULUM WHERE YEAR(mDate)=? AND MONTH(mDate)=?
+			ON
+			DUPLICATE KEY UPDATE mUpdated=CURRENT_TIMESTAMP
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>UPSERT_YMP</Key>
+		<Types>VARCHAR,NUMERIC,NUMERIC,NUMERIC,VARCHAR</Types>
+		<Sql>INSERT INTO SCHEDULE (mCurriculum, mSchool, mCongregation, mUpdated)
+			SELECT mId, ? AS SCHOOL, ? AS CONG, CURRENT_TIMESTAMP AS NOW
+			FROM CURRICULUM WHERE YEAR(mDate)=? AND MONTH(mDate)=? AND
+			mPart=?
+			ON DUPLICATE KEY UPDATE mUpdated=CURRENT_TIMESTAMP
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_Y</Key>
+		<Types>NUMERIC,NUMERIC</Types>
+		<Sql>SELECT * FROM CURRICULUM c, SCHEDULE s where s.mCurriculum=c.mId AND mCongregation=? and YEAR(c.mDate)=? ORDER BY c.mDate, c.mSort
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_YM</Key>
+		<Types>NUMERIC,NUMERIC,NUMERIC</Types>
+		<Sql>SELECT * FROM CURRICULUM c, SCHEDULE s where s.mCurriculum=c.mId AND mCongregation=? and YEAR(c.mDate)=? and MONTH(c.mDate)=? ORDER BY c.mDate, c.mSort</Sql>
+	</Statement>
+	<Statement>
+		<Key>UPDATE</Key>
+		<Types>NUMERIC,NUMERIC,VARCHAR,NUMERIC</Types>
+		<Sql>UPDATE SCHEDULE SET mParticipant=?,mAssistant=?,mStudyPoint=? where mId=?</Sql>
+	</Statement>
+</Statements> 

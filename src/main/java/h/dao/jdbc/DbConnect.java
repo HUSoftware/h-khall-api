@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 
@@ -14,14 +13,17 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 @PropertySource("classpath:db.properties")
 public class DbConnect
 {
-  @Value("${local}")
-  private boolean mLocal;
+  @Value("${jndi}")
+  private boolean mJndi;
+
+  @Value("${${prefix}.jndiname}")
+  private String mJndiName;
 
   @Value("${${prefix}.driverclass}")
   private String mDriverClass;
 
   @Value("${${prefix}.url}")
-  private String jdbcUrl;
+  private String mJdbcUrl;
 
   @Value("${${prefix}.username}")
   private String mUserName;
@@ -29,20 +31,16 @@ public class DbConnect
   @Value("${${prefix}.password}")
   private String mPassword;
 
-  @Value("${${prefix}.jndiname}")
-  private String mJndiName;
-
   @Bean
-  @Primary
   public DataSource dataSource()
   {
-    if (mLocal)
+    if (mJndi)
     {
-      return DataSourceBuilder.create().username(mUserName).password(mPassword).url(jdbcUrl).driverClassName(mDriverClass).build();
+      return new JndiDataSourceLookup().getDataSource(mJndiName);
     }
     else
     {
-      return new JndiDataSourceLookup().getDataSource(mJndiName);
+      return DataSourceBuilder.create().username(mUserName).password(mPassword).url(mJdbcUrl).driverClassName(mDriverClass).build();
     }
   }
 }

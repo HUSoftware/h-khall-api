@@ -1,4 +1,4 @@
-package h.dao.jdbc;
+package h.dao.jdbc.sql;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import h.dao.UserDao;
 
 @Component
-public class UserJdbc implements UserDao
+public class UserSql implements UserDao
 {
   private static final Map<String, String> CREDENTIALS = new HashMap<>();
 

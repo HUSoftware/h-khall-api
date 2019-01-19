@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Statements>
+	<Statement>
+		<Key>UPSERT</Key>
+		<Types>DATE,VARCHAR,VARCHAR,VARCHAR,NUMERIC,NUMERIC,VARCHAR,VARCHAR,NUMERIC,NUMERIC</Types>
+		<Sql>INSERT INTO CURRICULUM (mUpdated,mDate,mPart,mTheme,mSource,mDurationMinutes,mSort) VALUES
+			(CURRENT_TIMESTAMP,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE
+			mTheme=?,mSource=?,mDurationMinutes=?,mSort=?,mUpdated=CURRENT_TIMESTAMP
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT</Key>
+		<Types>NUMERIC</Types>
+		<Sql>select * from CURRICULUM c where YEAR(c.mDate)=? order by c.mDate, c.mSort</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_YEAR</Key>
+		<Sql>SELECT YEAR(mDate) mYear FROM CURRICULUM GROUP BY mYear ORDER BY mYear</Sql>
+	</Statement>
+	<Statement>
+		<Key>SELECT_RANGE</Key>
+		<Types>DATE,DATE</Types>
+		<Sql>select * from CURRICULUM c where c.mDate between ? AND ? order by c.mDate, c.mSort</Sql>
+	</Statement>
+</Statements> 

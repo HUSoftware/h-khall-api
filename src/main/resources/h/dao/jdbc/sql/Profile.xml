@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Statements>
+	<Statement>
+		<Key>SELECT_LOC</Key>
+		<Types>VARCHAR</Types>
+		<Sql>select mId, mType, mLocator, AES_DECRYPT(mKey,@key) AS mKey, mProfile from PROFILE where mLocator=?</Sql>
+	</Statement>
+	<Statement>
+		<Key>UPSERT</Key>
+		<Types>VARCHAR,VARCHAR,VARCHAR,VARCHAR</Types>
+		<Sql>INSERT INTO
+			PROFILE(mType,mLocator,mProfile)
+			VALUES (?,?,?) ON DUPLICATE KEY UPDATE mProfile=?
+		</Sql>
+	</Statement>
+	<Statement>
+		<Key>UPSERT_KEY</Key>
+		<Types>VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR</Types>
+		<Sql>INSERT INTO
+			PROFILE(mType,mLocator,mProfile,mKey)
+			VALUES (?,?,?,AES_ENCRYPT(?,@key)) ON DUPLICATE KEY UPDATE mProfile=?, mKey=AES_ENCRYPT(?,@key)
+		</Sql>
+	</Statement>
+</Statements> 

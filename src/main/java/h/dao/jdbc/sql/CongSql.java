@@ -1,4 +1,4 @@
-package h.dao.jdbc;
+package h.dao.jdbc.sql;
 
 import static h.dao.jdbc.DbUtil.newQuery;
 
@@ -11,14 +11,14 @@ import h.dao.CongDao;
 import h.model.Db;
 
 @Component
-public class CongJdbc implements CongDao
+public class CongSql implements CongDao
 {
   private MappingSqlQuery<Db.Row> mAll;
 
-  public CongJdbc(DataSource inDataSource)
+  public CongSql(DataSource inDataSource)
   {
-    String selectAll = "select * from CONGREGATION";
-    mAll = newQuery(inDataSource, selectAll);
+    String all = "select * from CONGREGATION";
+    mAll = newQuery(inDataSource, all);
   }
 
   @Override

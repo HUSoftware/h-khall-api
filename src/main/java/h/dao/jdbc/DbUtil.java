@@ -9,6 +9,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.object.MappingSqlQuery;
+import org.springframework.jdbc.object.SqlUpdate;
 
 import h.model.Db;
 
@@ -60,6 +61,13 @@ public final class DbUtil
     {
       ret.add(inMetaData.getColumnName(i));
     }
+    return ret;
+  }
+
+  public static SqlUpdate newUpdate(DataSource inDataSource, String inSql, int... inTypes)
+  {
+    SqlUpdate ret = new SqlUpdate(inDataSource, inSql, inTypes);
+    ret.compile();
     return ret;
   }
 
