@@ -1,0 +1,34 @@
+{
+	"statements": [
+		{
+			"mKey": "SELECT_PE_ID",
+			"mTypes": "NUMERIC",
+			"mSql": "select mId, AES_DECRYPT(mProfile,@key) AS mProfile from PERSON where mId=?"
+		},
+		{
+			"mKey": "SELECT_PE_LOC",
+			"mTypes": "VARCHAR",
+			"mSql": "select mId, AES_DECRYPT(mProfile,@key) AS mProfile from PERSON where mLocater like ?"
+		},
+		{
+			"mKey": "SELECT_LOC",
+			"mTypes": "NUMERIC",
+			"mSql": "select mLocater from PERSON where mId=?"
+		},
+		{
+			"mKey": "UPDATE_PE",
+			"mTypes": "VARCHAR,VARCHAR,NUMERIC",
+			"mSql": "update PERSON set mProfile=AES_ENCRYPT(?,@key),mLocater=? where mId=?"
+		},
+		{
+			"mKey": "INSERT_PE",
+			"mTypes": "VARCHAR,VARCHAR",
+			"mSql": "insert into PERSON (mLocater,mProfile) values (?,AES_ENCRYPT(?,@key))"
+		},
+		{
+			"mKey": "INSERT_PE1",
+			"mTypes": "NUMERIC,VARCHAR,VARCHAR",
+			"mSql": "insert into PERSON (mId,mLocater,mProfile) values (?,?,AES_ENCRYPT(?,@key))"
+		}
+	]
+}

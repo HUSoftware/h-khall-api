@@ -14,8 +14,6 @@ import org.springframework.jdbc.object.BatchSqlUpdate;
 import org.springframework.jdbc.object.MappingSqlQuery;
 import org.springframework.jdbc.object.SqlUpdate;
 
-import com.thoughtworks.xstream.XStream;
-
 import h.json.JsonMapper;
 import h.parser.Parser;
 import h.util.EnumUtil;
@@ -32,7 +30,7 @@ public abstract class AbstractSql
 
   public static SqlUpdate newSqlUpdate(DataSource inDataSource, Statement inStmt)
   {
-    SqlUpdate ret = new SqlUpdate(inDataSource, inStmt.getSql(), inStmt.types());
+    SqlUpdate ret = new SqlUpdate(inDataSource, inStmt.getSql(), inStmt.gTypes());
     ret.compile();
     return ret;
   }
@@ -240,36 +238,48 @@ public abstract class AbstractSql
     return mJsonMapper.readValue(inText, inClass);
   }
 
-  protected Statements getStatements(String inXmlName)
+  protected Statements getStatements(String inFileName)
   {
-    String fileContent = fileContent(inXmlName);
-    return fromXml(fileContent);
+    String fileContent = fileContent(inFileName);
+    return fromJson(fileContent);
   }
 
-  protected static Statements fromXml(String inXml)
+  private Statements fromJson(String inText)
   {
-    XStream xs = xStream();
-
-    Statements ret = (Statements) xs.fromXML(inXml);
-
-    return ret;
+    return readValue(inText, Statements.class);
   }
 
-  private static XStream xStream()
-  {
-    XStream ret = new XStream();
-
-    ret.alias("Statements", Statements.class);
-    ret.addImplicitMap(Statements.class, "mStmt", null, Statement.class, "mKey");
-
-    ret.alias("Statement", Statement.class);
-    ret.aliasField("Key", Statement.class, "mKey");
-    ret.aliasField("Types", Statement.class, "mTypes");
-    ret.aliasField("Types", Statement.class, "mTypes");
-    ret.aliasField("Sql", Statement.class, "mSql");
-
-    return ret;
-  }
+  // protected Statements getStatements(String inXmlName)
+  // {
+  // String fileContent = fileContent(inXmlName);
+  // return fromXml(fileContent);
+  // }
+  //
+  // protected static Statements fromXml(String inXml)
+  // {
+  // XStream xs = xStream();
+  //
+  // Statements ret = (Statements) xs.fromXML(inXml);
+  //
+  // return ret;
+  // }
+  //
+  // private static XStream xStream()
+  // {
+  // XStream ret = new XStream();
+  //
+  // ret.alias("Statements", Statements.class);
+  // ret.addImplicitMap(Statements.class, "mStmt", null, Statement.class,
+  // "mKey");
+  //
+  // ret.alias("Statement", Statement.class);
+  // ret.aliasField("Key", Statement.class, "mKey");
+  // ret.aliasField("Types", Statement.class, "mTypes");
+  // ret.aliasField("Types", Statement.class, "mTypes");
+  // ret.aliasField("Sql", Statement.class, "mSql");
+  //
+  // return ret;
+  // }
 
   private static Map<String, Integer> getJdbcTypeName()
   {
@@ -293,27 +303,71 @@ public abstract class AbstractSql
 
   public static class Statements
   {
-    private Map<String, Statement> mStmt;
+    private List<Statement> mStatements;
 
     public Statement getStatement(String inKey)
     {
-      return mStmt.get(inKey);
+      Statement ret = null;
+
+      for (Statement value : mStatements)
+      {
+        if (inKey.equals(value.mKey))
+        {
+          ret = value;
+          break;
+        }
+      }
+      return ret;
+    }
+
+    public List<Statement> getStatements()
+    {
+      return mStatements;
+    }
+
+    public void setStatements(List<Statement> inStatements)
+    {
+      mStatements = inStatements;
     }
   }
 
   public static class Statement
   {
     public String mKey;
-
-    private String mTypes;
-    private String mSql;
+    public String mTypes;
+    public String mSql;
 
     public String getSql()
     {
       return mSql;
     }
 
-    public int[] types()
+    public void setTypes(String inTypes)
+    {
+      mTypes = inTypes;
+    }
+
+    public void setSql(String inSql)
+    {
+      mSql = inSql;
+    }
+
+    public void setKey(String inKey)
+    {
+      mKey = inKey;
+    }
+
+    public String getKey()
+    {
+      return mKey;
+    }
+
+    public String getTypes()
+    {
+      return mTypes;
+    }
+
+    public int[] gTypes()
     {
       int[] ret = null;
       if (mTypes != null && mTypes.length() > 0)
@@ -332,7 +386,7 @@ public abstract class AbstractSql
   protected BatchSqlUpdate newBatchUpdate(DataSource inDataSource, String inKey)
   {
     Statement stmt = mStmts.getStatement(inKey);
-    BatchSqlUpdate ret = new BatchSqlUpdate(inDataSource, stmt.getSql(), stmt.types());
+    BatchSqlUpdate ret = new BatchSqlUpdate(inDataSource, stmt.getSql(), stmt.gTypes());
     ret.compile();
     return ret;
   }

@@ -1,0 +1,24 @@
+{
+	"statements": [
+		{
+			"mKey": "UPSERT",
+			"mTypes": "VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR",
+			"mSql": "INSERT INTO CONGREGATION(mNumber,mName,mProfile) VALUES (?,?,?) ON DUPLICATE KEY UPDATE mName=?,mProfile=?"
+		},
+		{
+			"mKey": "SELECT_ID",
+			"mTypes": "NUMERIC",
+			"mSql": "select * from CONGREGATION where mId=?"
+		},
+		{
+			"mKey": "SELECT_Y",
+			"mTypes": "NUMERIC,NUMERIC",
+			"mSql": "SELECT * FROM CURRICULUM c, SCHEDULE s where s.mCurriculum=c.mId AND mCongregation=? and YEAR(c.mDate)=? ORDER BY c.mDate, c.mSort"
+		},
+		{
+			"mKey": "SELECT_NUM",
+			"mTypes": "VARCHAR",
+			"mSql": "select * from CONGREGATION where mNumber=?"
+		}
+	]
+}

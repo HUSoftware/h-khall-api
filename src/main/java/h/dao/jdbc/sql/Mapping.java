@@ -360,7 +360,7 @@ public class Mapping
     return ret;
   }
 
-  // TODO move
+  // move
   public static Long toLong(Object inObject)
   {
     Long ret = null;

@@ -1,0 +1,19 @@
+{
+	"statements": [
+		{
+			"mKey": "SELECT_LOC",
+			"mTypes": "VARCHAR",
+			"mSql": "select mId, mType, mLocator, AES_DECRYPT(mKey,@key) AS mKey, mProfile from PROFILE where mLocator=?"
+		},
+		{
+			"mKey": "UPSERT",
+			"mTypes": "VARCHAR,VARCHAR,VARCHAR,VARCHAR",
+			"mSql": "INSERT INTO PROFILE(mType,mLocator,mProfile) VALUES (?,?,?) ON DUPLICATE KEY UPDATE mProfile=?"
+		},
+		{
+			"mKey": "UPSERT_KEY",
+			"mTypes": "VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR",
+			"mSql": "INSERT INTO PROFILE(mType,mLocator,mProfile,mKey) VALUES (?,?,?,AES_ENCRYPT(?,@key)) ON DUPLICATE KEY UPDATE mProfile=?, mKey=AES_ENCRYPT(?,@key)"
+		}
+	]
+}

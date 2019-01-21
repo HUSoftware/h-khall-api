@@ -1,0 +1,44 @@
+{
+	"statements": [
+		{
+			"mKey": "UPSERT",
+			"mTypes": "NUMERIC,NUMERIC,NUMERIC,NUMERIC,DATE,DATE,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,VARCHAR,VARCHAR,NUMERIC,DATE,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,NUMERIC,VARCHAR,VARCHAR,NUMERIC",
+			"mSql": "INSERT INTO REPORT(mCongregation,mPublisher,mYear,mMonth,mDate, mSendDate,mNoActivity,mPlacements,mVideoShowings,mHours,mReturnVisits,mBibleStudies,mRbcHours,mIncludeAllHours,mRemarks,mType,mPartialHours) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE mSendDate=?,mNoActivity=?,mPlacements=?,mVideoShowings=?,mHours=?,mReturnVisits=?,mBibleStudies=?,mRbcHours=?,mIncludeAllHours=?,mRemarks=?,mType=?,mPartialHours=?,mUpdated=CURRENT_TIMESTAMP"
+		},
+		{
+			"mKey": "SELECT",
+			"mTypes": "VARCHAR,NUMERIC",
+			"mSql": "SELECT r.* FROM PERSON p, REPORT r where mLocater like ? and mLocater not like \"%f0,%\" and p.mId=r.mPublisher and r.mCongregation=?"
+		},
+		{
+			"mKey": "SELECT_C",
+			"mTypes": "NUMERIC",
+			"mSql": "SELECT * FROM REPORT where mCongregation=?"
+		},
+		{
+			"mKey": "SELECT_CP",
+			"mTypes": "NUMERIC,NUMERIC",
+			"mSql": "SELECT * FROM REPORT where mCongregation=? and mPublisher=?"
+		},
+		{
+			"mKey": "SELECT_CR",
+			"mTypes": "NUMERIC,DATE,DATE",
+			"mSql": "SELECT * FROM REPORT where mCongregation=? and mDate between ? and ?"
+		},
+		{
+			"mKey": "SELECT_CPR",
+			"mTypes": "NUMERIC,NUMERIC,DATE,DATE",
+			"mSql": "SELECT * FROM REPORT where mCongregation=? and mPublisher=? and mDate between ? and ?"
+		},
+		{
+			"mKey": "SELECT_CPD",
+			"mTypes": "NUMERIC,NUMERIC,DATE,DATE",
+			"mSql": "SELECT * FROM REPORT where mCongregation=? and mPublisher=? and mDate >= ?"
+		},
+		{
+			"mKey": "SELECT_CPYM",
+			"mTypes": "NUMERIC,NUMERIC,NUMERIC,NUMERIC",
+			"mSql": "SELECT * from REPORT where mCongregation=? and mPublisher=? and mYear=? and mMonth=?"
+		}
+	]
+}

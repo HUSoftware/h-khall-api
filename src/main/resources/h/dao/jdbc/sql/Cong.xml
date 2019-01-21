@@ -4,10 +4,7 @@
 	<Statement>
 		<Key>UPSERT</Key>
 		<Types>VARCHAR,VARCHAR,VARCHAR,VARCHAR,VARCHAR</Types>
-		<Sql>INSERT INTO
-			CONGREGATION(mNumber,mName,mProfile)
-			VALUES (?,?,?) ON DUPLICATE KEY UPDATE
-			mName=?,mProfile=?
+		<Sql>INSERT INTO CONGREGATION(mNumber,mName,mProfile) VALUES (?,?,?) ON DUPLICATE KEY UPDATE mName=?,mProfile=?
 		</Sql>
 	</Statement>
 	<Statement>

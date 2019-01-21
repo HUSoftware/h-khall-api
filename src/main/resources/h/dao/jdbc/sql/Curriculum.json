@@ -1,0 +1,28 @@
+{
+	"statements": [
+		{
+			"mKey": "UPSERT",
+			"mTypes": "DATE,VARCHAR,VARCHAR,VARCHAR,NUMERIC,NUMERIC,VARCHAR,VARCHAR,NUMERIC,NUMERIC",
+			"mSql": "INSERT INTO CURRICULUM (mUpdated,mDate,mPart,mTheme,mSource,mDurationMinutes,mSort) VALUES (CURRENT_TIMESTAMP,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE mTheme=?,mSource=?,mDurationMinutes=?,mSort=?,mUpdated=CURRENT_TIMESTAMP"
+		},
+		{
+			"mKey": "SELECT",
+			"mTypes": "NUMERIC",
+			"mSql": "select * from CURRICULUM c where YEAR(c.mDate)=? order by c.mDate, c.mSort"
+		},
+		{
+			"mKey": "SELECT_YM",
+			"mTypes": "NUMERIC,NUMERIC",
+			"mSql": "select * from CURRICULUM c where YEAR(c.mDate)=? and MONTH(c.mDate)=? order by c.mDate, c.mSort"
+		},
+		{
+			"mKey": "SELECT_YEAR",
+			"mSql": "SELECT YEAR(mDate) mYear FROM CURRICULUM GROUP BY mYear ORDER BY mYear"
+		},
+		{
+			"mKey": "SELECT_RANGE",
+			"mTypes": "DATE,DATE",
+			"mSql": "select * from CURRICULUM c where c.mDate between ? AND ? order by c.mDate, c.mSort"
+		}
+	]
+}

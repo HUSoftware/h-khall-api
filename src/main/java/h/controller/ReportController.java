@@ -24,16 +24,16 @@ public class ReportController
   @Autowired
   private ReportDao mDao;
 
-  @GetMapping("/userid/{userid}/months/{months}")
-  public Db.Rows selectByUserAndMonthsAgo(@PathVariable("userid") long inUserId, @PathVariable("months") int inMonths)
+  @GetMapping("/congid/{congid}/userid/{userid}/months/{months}")
+  public Db.Rows selectByUserAndMonthsAgo(@PathVariable("congid") long inCongId, @PathVariable("userid") long inUserId, @PathVariable("months") int inMonths)
   {
-    return mDao.selectByUserAndMonthsAgo(inUserId, inMonths);
+    return mDao.reportByUserAndMonthsAgo(inCongId, inUserId, inMonths);
   }
 
   @GetMapping("/congid/{congid}/months/{months}")
   public Db.Rows selectByCongAndMonthsAgo(@PathVariable("congid") long inCongId, @PathVariable("months") int inMonths)
   {
-    return mDao.selectByCongAndMonthsAgo(inCongId, inMonths);
+    return mDao.reportByCongAndMonthsAgo(inCongId, inMonths);
   }
 
   @PostMapping
