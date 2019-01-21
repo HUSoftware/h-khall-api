@@ -57,14 +57,14 @@ public class ReportSql implements ReportDao
 
 
   @Override
-  public Db.Rows selectByUserAndMonthsAgo(long inUserId, int inMonthsAgo)
+  public Db.Rows reportByUserAndMonthsAgo(long inUserId, int inMonthsAgo)
   {
     Date[] range = range(inMonthsAgo);
     return new Db.Rows(mPub.execute(inUserId, range[0], range[1]));
   }
 
   @Override
-  public Db.Rows selectByCongAndMonthsAgo(long inUserId, int inMonthsAgo)
+  public Db.Rows reportByCongAndMonthsAgo(long inUserId, int inMonthsAgo)
   {
     Date[] range = range(inMonthsAgo);
     return new Db.Rows(mCong.execute(inUserId, range[0], range[1]));

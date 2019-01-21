@@ -1,5 +1,7 @@
 package h.dao.jdbc.sql;
 
+import static h.dao.jdbc.DbUtil.newQuery;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -9,19 +11,24 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.object.MappingSqlQuery;
 import org.springframework.jdbc.object.SqlUpdate;
+import org.springframework.stereotype.Component;
 
+import h.dao.CurriculumDao;
+import h.model.Db;
 import h.model.khall.Curriculum;
 
-public class CurriculumSql extends AbstractSql
+@Component
+public class CurriculumSql extends AbstractSql implements CurriculumDao
 {
   private final SqlUpdate mUpsert;
   private final MappingSqlQuery<Curriculum> mSelect;
   private final MappingSqlQuery<Curriculum> mSelectR;
   private final MappingSqlQuery<Integer> mSelectY;
+  private final MappingSqlQuery<Db.Row> mSelectYM;
 
   public CurriculumSql(DataSource inDataSource)
   {
-    mStmts = getStatements("Curriculum.xml");
+    mStmts = getStatementsJson("Curriculum.json");
 
     Statement upsert = mStmts.getStatement("UPSERT");
     mUpsert = newSqlUpdate(inDataSource, upsert.getSql(), upsert.types());
@@ -55,6 +62,9 @@ public class CurriculumSql extends AbstractSql
         return inRs.getInt("mYear");
       }
     };
+
+    Statement selectYM = mStmts.getStatement("SELECT_YM");
+    mSelectYM = newQuery(inDataSource, selectYM.getSql(), selectYM.types());
   }
 
   public List<Integer> selectYears()
@@ -62,6 +72,7 @@ public class CurriculumSql extends AbstractSql
     return mSelectY.execute();
   }
 
+  @Override
   public int upsert(Curriculum inCurriculum)
   {
     return mUpsert.update(params(inCurriculum.getDate(), inCurriculum.getPart().name(),
@@ -78,5 +89,11 @@ public class CurriculumSql extends AbstractSql
   public List<Curriculum> selectBetween(Date inStart, Date inEnd)
   {
     return mSelectR.execute(params(inStart, inEnd));
+  }
+
+  @Override
+  public Db.Rows curriculumByYearAndMonth(int inYear, int inMonths)
+  {
+    return new Db.Rows(mSelectYM.execute(inYear, inMonths));
   }
 }

@@ -27,13 +27,13 @@ public class ReportController
   @GetMapping("/userid/{userid}/months/{months}")
   public Db.Rows selectByUserAndMonthsAgo(@PathVariable("userid") long inUserId, @PathVariable("months") int inMonths)
   {
-    return mDao.selectByUserAndMonthsAgo(inUserId, inMonths);
+    return mDao.reportByUserAndMonthsAgo(inUserId, inMonths);
   }
 
   @GetMapping("/congid/{congid}/months/{months}")
   public Db.Rows selectByCongAndMonthsAgo(@PathVariable("congid") long inCongId, @PathVariable("months") int inMonths)
   {
-    return mDao.selectByCongAndMonthsAgo(inCongId, inMonths);
+    return mDao.reportByCongAndMonthsAgo(inCongId, inMonths);
   }
 
   @PostMapping

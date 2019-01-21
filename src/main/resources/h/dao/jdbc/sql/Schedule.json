@@ -1,0 +1,29 @@
+{
+    "statements": [
+      {
+        "mKey": "UPSERT_YM",
+        "mTypes": "VARCHAR,NUMERIC,NUMERIC,NUMERIC",
+        "mSql": "INSERT INTO SCHEDULE (mCurriculum, mSchool, mCongregation, mUpdated) SELECT mId, ? AS SCHOOL, ? AS CONG, CURRENT_TIMESTAMP AS NOW FROM CURRICULUM WHERE YEAR(mDate)=? AND MONTH(mDate)=? ON DUPLICATE KEY UPDATE mUpdated=CURRENT_TIMESTAMP"
+      },
+      {
+        "mKey": "UPSERT_YMP",
+        "mTypes": "VARCHAR,NUMERIC,NUMERIC,NUMERIC,VARCHAR",
+        "mSql": "INSERT INTO SCHEDULE (mCurriculum, mSchool, mCongregation, mUpdated) SELECT mId, ? AS SCHOOL, ? AS CONG, CURRENT_TIMESTAMP AS NOW FROM CURRICULUM WHERE YEAR(mDate)=? AND MONTH(mDate)=? AND mPart=? ON DUPLICATE KEY UPDATE mUpdated=CURRENT_TIMESTAMP"
+      },
+      {
+        "mKey": "SELECT_Y",
+        "mTypes": "NUMERIC,NUMERIC",
+        "mSql": "SELECT * FROM CURRICULUM c, SCHEDULE s where s.mCurriculum=c.mId AND mCongregation=? and YEAR(c.mDate)=? ORDER BY c.mDate, c.mSort"
+      },
+      {
+        "mKey": "SELECT_YM",
+        "mTypes": "NUMERIC,NUMERIC,NUMERIC",
+        "mSql": "SELECT * FROM CURRICULUM c, SCHEDULE s where s.mCurriculum=c.mId AND mCongregation=? and YEAR(c.mDate)=? and MONTH(c.mDate)=? ORDER BY c.mDate, c.mSort"
+      },
+      {
+        "mKey": "UPDATE",
+        "mTypes": "NUMERIC,NUMERIC,VARCHAR,NUMERIC",
+        "mSql": "UPDATE SCHEDULE SET mParticipant=?,mAssistant=?,mStudyPoint=? where mId=?"
+      }
+    ]
+}

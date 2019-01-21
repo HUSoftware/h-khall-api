@@ -240,6 +240,17 @@ public abstract class AbstractSql
     return mJsonMapper.readValue(inText, inClass);
   }
 
+  protected Statements getStatementsJson(String inFileName)
+  {
+    String fileContent = fileContent(inFileName);
+    return fromJson(fileContent);
+  }
+
+  private Statements fromJson(String inText)
+  {
+    return readValue(inText, Statements.class);
+  }
+
   protected Statements getStatements(String inXmlName)
   {
     String fileContent = fileContent(inXmlName);
@@ -293,11 +304,31 @@ public abstract class AbstractSql
 
   public static class Statements
   {
-    private Map<String, Statement> mStmt;
+    private List<Statement> mStatements;
 
     public Statement getStatement(String inKey)
     {
-      return mStmt.get(inKey);
+      Statement ret = null;
+
+      for (Statement value : mStatements)
+      {
+        if (inKey.equals(value.mKey))
+        {
+          ret = value;
+          break;
+        }
+      }
+      return ret;
+    }
+
+    public List<Statement> getStatements()
+    {
+      return mStatements;
+    }
+
+    public void setStatements(List<Statement> inStatements)
+    {
+      mStatements = inStatements;
     }
   }
 
@@ -305,12 +336,37 @@ public abstract class AbstractSql
   {
     public String mKey;
 
-    private String mTypes;
-    private String mSql;
+    public String mTypes;
+    public String mSql;
 
     public String getSql()
     {
       return mSql;
+    }
+
+    public void setTypes(String inTypes)
+    {
+      mTypes = inTypes;
+    }
+
+    public void setSql(String inSql)
+    {
+      mSql = inSql;
+    }
+
+    public void setKey(String inKey)
+    {
+      mKey = inKey;
+    }
+
+    public String getKey()
+    {
+      return mKey;
+    }
+
+    public String getTypes()
+    {
+      return mTypes;
     }
 
     public int[] types()

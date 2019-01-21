@@ -15,6 +15,11 @@
 		<Sql>select * from CURRICULUM c where YEAR(c.mDate)=? order by c.mDate, c.mSort</Sql>
 	</Statement>
 	<Statement>
+		<Key>SELECT_YM</Key>
+		<Types>NUMERIC,NUMERIC</Types>
+		<Sql>select * from CURRICULUM c where YEAR(c.mDate)=? and MONTH(c.mDate)=? order by c.mDate, c.mSort</Sql>
+	</Statement>
+	<Statement>
 		<Key>SELECT_YEAR</Key>
 		<Sql>SELECT YEAR(mDate) mYear FROM CURRICULUM GROUP BY mYear ORDER BY mYear</Sql>
 	</Statement>
