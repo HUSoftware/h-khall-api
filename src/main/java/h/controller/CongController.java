@@ -2,6 +2,7 @@ package h.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,11 @@ public class CongController
   public Db.Rows selectAllCong()
   {
     return mDao.select();
+  }
+
+  @GetMapping("/{number}")
+  public Db.Rows selectByNumber(@PathVariable("number") String inNumber)
+  {
+    return mDao.select(inNumber);
   }
 }
